@@ -1,0 +1,12 @@
+.imagegrid {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 10px;
+}
+
+.tile {
+    grid-column: span 4;
+    position: relative;
+    aspect-ratio: 16 / 9;
+}

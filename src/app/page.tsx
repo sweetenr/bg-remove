@@ -1,18 +1,51 @@
+"use client"
 import Image from 'next/image'
 import styles from './page.module.css'
+//import { writeFile } from 'fs/promises'
+import { join } from 'path'
+import FileUploadForm from '@/components/FileUploadForm'
 
 export default function Home() {
+  
+  //const inputFileRef = useRef<HTMLInputElement | null>(null);
+
+  async function upload(data: FormData) {
+    
+
+    console.log('form: ', data)
+    const file: File | null = data.get('file') as unknown as File
+    if (!file) {
+      throw new Error('No file uploaded')
+    }
+
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+
+    // With the file data in the buffer, you can do whatever you want with it.
+    // For this, we'll just write it to the filesystem in a new location
+    const path = join('/', 'tmp', file.name)
+    //await writeFile(path, buffer)
+    //console.log(`open ${path} to see the uploaded file`)
+
+    return { success: true }
+  }
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
         <div>
-        <code className={styles.code}>bg-remover</code>
+          <code className={styles.code}>bg-remover</code>
         </div>
       </div>
+
+    <div className={styles.uploadform}>
+      <FileUploadForm />
+    </div>
+
+      {/* <form action={upload}>
+        <input type="file" multiple ref={inputFileRef} name="file" />
+        <input type="submit" value="Upload" />
+      </form> */}
 
       <div className={styles.grid}>
         <a

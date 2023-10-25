@@ -6,3 +6,16 @@
     display: flex;
     justify-content: space-between;
 }
+
+.doit {
+    display: block;
+    padding: 12px;
+    border: 1px solid white;
+}
+
+.parent {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    width: 100%;
+}

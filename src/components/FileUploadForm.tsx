@@ -44,6 +44,15 @@ const FileUploadForm = () => {
         setUploading(false)
     }
 
+    
+    const handleAutoRemove =async (e: FormEvent<HTMLAnchorElement>) => {
+        e.preventDefault()
+
+        const res = await axios.post('api/autoremove')
+        console.log(res)
+
+    }
+
     /**
      * This function does the following:
      * - loops thru the list of image files from the upload form
@@ -83,16 +92,20 @@ const FileUploadForm = () => {
     }
 
     return (
-        <form className={styles.form} onSubmit={photoroom}>
-            <div className={styles.input}>
-                <CustomFileSelector
-                    accept="image/png, image/jpeg"
-                    onChange={handleFileSelected}
-                />
-                <button type="submit">Upload</button>
-            </div>
-            <ImagePreview images={images} />
-        </form>
+        <div className={styles.parent}>
+            <form className={styles.form} onSubmit={photoroom}>
+                <div className={styles.input}>
+                    <CustomFileSelector
+                        accept="image/png, image/jpeg"
+                        onChange={handleFileSelected}
+                    />
+                    <button type="submit">Upload</button>
+                </div>
+                <ImagePreview images={images} />
+            </form>
+
+            <a className={styles.doit} href="#" onClick={handleAutoRemove}>Do it!</a>
+        </div>
     );
 };
 

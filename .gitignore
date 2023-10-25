@@ -37,3 +37,7 @@ next-env.d.ts
 .env
 
 public/processed/*.png
+public/unprocessed/**/*.png
+public/unprocessed/**/*.jpg
+public/unprocessed/**/*.jpeg
+

@@ -53,6 +53,24 @@ const FileUploadForm = () => {
 
     }
 
+    const failQueue = async (e: FormEvent<HTMLAnchorElement>) => {
+        e.preventDefault()
+        const res = await axios.post('api/failqueue')
+        console.log(res)
+    }
+
+    const copyFailQueue = async (e: FormEvent<HTMLAnchorElement>) => {
+        e.preventDefault()
+        const res = await axios.post('api/copyfails')
+        console.log(res)
+    }
+
+    const convertQueue = async (e: FormEvent<HTMLAnchorElement>) => {
+        e.preventDefault()
+        const res = await axios.post('api/convert')
+        console.log(res)
+    }
+
     /**
      * This function does the following:
      * - loops thru the list of image files from the upload form
@@ -105,6 +123,9 @@ const FileUploadForm = () => {
             </form>
 
             <a className={styles.doit} href="#" onClick={handleAutoRemove}>Do it!</a>
+            <a className={styles.doit} href="#" onClick={failQueue}>find failed JPG files</a>
+            <a className={styles.doit} href="#" onClick={copyFailQueue}>copy failed JPG files</a>
+            <a className={styles.doit} href="#" onClick={convertQueue}>convert JPG files to PNG (only run this on separated failed jpg's)</a>
         </div>
     );
 };

@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
 import {join} from 'path'
-import { readdirSync, renameSync, createWriteStream, createReadStream, unlinkSync, writeFileSync } from 'fs'
+import { readdirSync, renameSync, createWriteStream, createReadStream, unlinkSync, writeFileSync, cpSync } from 'fs'
 import https from 'https'
 import * as im from 'imagemagick'
 
 let queue: any[] = []
+let success: any[] = []
 let newPaths: any = []
 let apiRsults: any = []
 let total: number = 0
@@ -147,7 +148,21 @@ export function runQueue() {
         }
     }else{
         const d = new Date()
-        writeFileSync(`public/processed/${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}_results.json`, JSON.stringify(apiRsults))
+        writeFileSync(`public/processed/${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}${d.getHours}${d.getMinutes}${d.getSeconds}_results.json`, JSON.stringify(apiRsults))
+        console.log('COMPLETE')
+    }
+}
+
+export function copyQueue() {
+    if(queue.length){
+        const item: string = queue.pop()
+        const cpPath = item.replace('unprocessed', 'processed')
+        cpSync(item, cpPath)
+        count++
+        progress = (count / total) * 100
+        console.log(`${progress.toFixed(2)}% -- ${count}/${total} -- ${queue.length} left`)
+        copyQueue()
+    }else{
         console.log('COMPLETE')
     }
 }
@@ -160,16 +175,16 @@ export async function POST(req: Request) {
     total = 0
     count = 0
     progress = 0
+    success = []
+    let sucessTotal = 0
 
     // This will get us a list of ALL png/jpg files in ALL folders in public/unprocessed
-    console.log('read files..')
+    console.log('read jpg files..')
     for (const file of readAllFiles('public/unprocessed')) {
         if(file.includes('.jpeg') || 
             file.includes('.jpg') || 
-            file.includes('.png') ||
             file.includes('.JPEG') || 
-            file.includes('.JPG') ||
-            file.includes('.PNG')
+            file.includes('.JPG')
             ){
             queue.push(file)
             total++
@@ -177,6 +192,16 @@ export async function POST(req: Request) {
     }
 
     console.log(`${total} files read`)
+
+    console.log('read jpg files..')
+    for (const file of readAllFiles('public/unprocessed')) {
+        if(file.includes('.png') || 
+            file.includes('.PNG')
+            ){
+            success.push(file)
+            sucessTotal++
+        }
+    }
 
     console.log('new path names..')
     for (const i in queue) {
@@ -187,8 +212,12 @@ export async function POST(req: Request) {
     }
 
     // process all images
-    console.log('run queue..')
-    runQueue()
+    console.log('write queue..')
+    const d = new Date()
+    writeFileSync(`public/processed/${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}-${d.getHours()}${d.getMinutes()}${d.getSeconds()}_failqueue.json`, JSON.stringify({queue: queue, newPaths: newPaths, failTotal: total, successTotal: sucessTotal}))
 
+    console.log('copy queue...')
+    //runQueue()
+    //copyQueue()
     return NextResponse.json({ queue: queue, newPaths: newPaths });
 }

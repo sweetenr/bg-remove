@@ -39,5 +39,11 @@ next-env.d.ts
 public/processed/*.png
 public/unprocessed/**/*.png
 public/unprocessed/**/*.jpg
+public/unprocessed/**/*.JPG
 public/unprocessed/**/*.jpeg
+public/unprocessed/**/*.gif
+public/unprocessed/**/*.tmp
+public/unprocessed/**/*.tif
+public/unprocessed/**/*.json
+public/unprocessed/**/*.txt
 

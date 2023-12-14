@@ -164,7 +164,7 @@ export async function POST(req: Request) {
     // This will get us a list of ALL png/jpg files in ALL folders in public/unprocessed
     console.log('read files..')
     for (const file of readAllFiles('public/unprocessed')) {
-        if(file.includes('.jpeg') || 
+        if( file.includes('.jpeg') || 
             file.includes('.jpg') || 
             file.includes('.png') ||
             file.includes('.JPEG') || 

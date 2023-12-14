@@ -59,6 +59,12 @@ const FileUploadForm = () => {
         console.log(res)
     }
 
+    const skuReport = async (e: FormEvent<HTMLAnchorElement>) => {
+        e.preventDefault()
+        const res = await axios.post('api/dedupe')
+        console.log(res)
+    }
+
     const copyFailQueue = async (e: FormEvent<HTMLAnchorElement>) => {
         e.preventDefault()
         const res = await axios.post('api/copyfails')
@@ -122,10 +128,11 @@ const FileUploadForm = () => {
                 <ImagePreview images={images} />
             </form>
 
-            <a className={styles.doit} href="#" onClick={handleAutoRemove}>Do it!</a>
+            <a className={styles.doit} href="#" onClick={handleAutoRemove}>bulk remove BG!</a>
             <a className={styles.doit} href="#" onClick={failQueue}>find failed JPG files</a>
             <a className={styles.doit} href="#" onClick={copyFailQueue}>copy failed JPG files</a>
             <a className={styles.doit} href="#" onClick={convertQueue}>convert JPG files to PNG (only run this on separated failed jpg's)</a>
+            <a className={styles.doit} href="#" onClick={skuReport}>skuReport</a>
         </div>
     );
 };

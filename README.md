@@ -25,6 +25,11 @@ before trying any of these, you'll need to place any folders/files into `public/
 
 ![logs](/docs/media/processedLogs.png)
 
+## SKU Report
+This script will generate a json log with a breakdown of unique SKU folders, SKu folder with sub-folders, and folders that are oddly named, like the following:
+
+![SKU Report](/docs/media/skuReport.png)
+
 I **Highly** recommend using VS Code so you can format the generated json log files, otherwise they are impossible to read..
 
 ## BG Removal
